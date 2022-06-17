@@ -30,4 +30,5 @@ d = { 'settings': { 'audience': 'Developers',
                                         'testing_grounds.export.TestMaker': 'https://muellerzr.github.io/testing_grounds/export#TestMaker',
                                         'testing_grounds.export.TestMaker.make': 'https://muellerzr.github.io/testing_grounds/export#TestMaker.make',
                                         'testing_grounds.export.TestMaker.make_all': 'https://muellerzr.github.io/testing_grounds/export#TestMaker.make_all',
+                                        'testing_grounds.export.create_test_modules': 'https://muellerzr.github.io/testing_grounds/export#create_test_modules',
                                         'testing_grounds.export.write_test_cells': 'https://muellerzr.github.io/testing_grounds/export#write_test_cells'}}}
