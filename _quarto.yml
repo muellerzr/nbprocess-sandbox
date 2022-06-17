@@ -22,7 +22,7 @@ website:
   open-graph: true
   reader-mode: true
   repo-branch: main
-  repo-url: https://github.com/muellerzr/testing_grounds/tree/main/
+  repo-url: https://github.com/muellerzr/nbprocess-sandbox/tree/main/
   repo-actions: [issue]
   navbar:
     background: primary
@@ -32,7 +32,7 @@ website:
         file: index.ipynb
     right:
       - icon: github
-        href: https://github.com/muellerzr/testing_grounds/tree/main/
+        href: https://github.com/muellerzr/nbprocess-sandbox/tree/main/
   sidebar:
     style: "floating"
 
