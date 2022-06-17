@@ -9,7 +9,7 @@ This library (and repository) contains a variety of
 tutorials/experiments using
 [nbprocess](https://github.com/fastai/nbprocess). Ideally these
 experiments will be me testing how close
-[nbagile](https://github.com/muellerzr/nbagile) can be to existance with
+[nbagile](https://github.com/muellerzr/nbagile) can be to existence with
 this new framework.
 
 Implemented in this repo:
@@ -17,3 +17,4 @@ Implemented in this repo:
 -   Automatically exporting notebook tests into a pytest
     `unittest.TestCase` format inside a `tests/` directory. (see 00_core
     and 01_export)
+-   Creating cookie-cutter notebooks via `new_nb`
