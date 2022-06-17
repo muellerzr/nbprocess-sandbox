@@ -1,0 +1,7 @@
+website:
+  sidebar:
+    contents:
+      - 00_core.ipynb
+      - 01_export.ipynb
+      - 02_write_nb.ipynb
+      - index.ipynb
