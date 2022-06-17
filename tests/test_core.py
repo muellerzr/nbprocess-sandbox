@@ -8,5 +8,5 @@ import unittest
 class CoreTester(unittest.TestCase):
 	# %% ../00_core.ipynb 6
 	def test_addition(self):
-		test_eq(addition(1,2), 3)
-		test_eq(addition(-1,0), -1)
+	test_eq(addition(1,2), 3)
+	test_eq(addition(-1,0), -1)

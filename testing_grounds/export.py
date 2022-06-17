@@ -30,7 +30,7 @@ def write_test_cells(cells, hdr, file, offset=0, name=""):
                 content = f'\n{hdr} {cell.idx_+offset}\n{cell.source}'
             else:
                 test_name = cell["directives_"]["test"][0]
-                content = '\n'.join([f"\t\t{c}" for c in cell.source.split("\n")])
+                content = '\n'.join([f"\t{c}" for c in cell.source.split("\n")])
                 content = f'\n\t{hdr} {cell.idx_+offset}\n\tdef test_{test_name}(self):\n{content}'
             file.write(content)
 
