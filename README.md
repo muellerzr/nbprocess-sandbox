@@ -15,6 +15,6 @@ this new framework.
 Implemented in this repo:
 
 -   Automatically exporting notebook tests into a pytest
-    `unittest.TestCase` format inside a `tests/` directory. (see 00_core
-    and 01_export)
+    [unittest.TestCase](https://docs.python.org/3/library/unittest.html#unittest.TestCase)
+    format inside a `tests/` directory. (see 00_core and 01_export)
 -   Creating cookie-cutter notebooks via `new_nb`

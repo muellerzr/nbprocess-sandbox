@@ -3,5 +3,5 @@
 # %% auto 0
 __all__ = ['addition']
 
-# %% ../00_core.ipynb 6
+# %% ../00_core.ipynb 7
 def addition(a,b): return a+b
