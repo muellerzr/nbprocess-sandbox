@@ -88,6 +88,6 @@ def convert_unittest(cell):
         directive = get_directive(cell, "test")
         if "case" in directive:
             tstcls, = directive[2:3] or "unittest.TestCase"
-            cell.source = f'class {directive[1]}({tstcls})'
+            cell.source = f'class {directive[1]}({tstcls}):'
         elif "import" not in directive:
             cell.source = '\n'.join([f'{_tab}{c}' for c in cell.source.split("\n")])
