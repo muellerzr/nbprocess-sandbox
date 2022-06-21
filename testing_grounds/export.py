@@ -12,7 +12,7 @@ from nbprocess.read import *
 from nbprocess.imports import *
 from nbprocess.maker import *
 
-from nbprocess.processors import _default_exp
+# from nbprocess.processors import _default_exp
 
 # %% ../01_export.ipynb 7
 from collections import defaultdict
@@ -37,51 +37,49 @@ def get_directive(cell, key, default=None):
 
 def _is_test_cell(cell): return cell.cell_type == "code" and get_directive(cell, "test")
 
-# %% ../01_export.ipynb 11
-def _mark_test(s):
-    ft = exec_new("import fastcore.test as ft")["ft"].__all__
-    kinds = [o for o in ft if o.startswith("test")]
-    for k in kinds:
-        if f"{k}(" in s: 
-            s = s.replace(f"{k}(", f"ft.{k}(")
-    return s
-
 # %% ../01_export.ipynb 12
-def convert_pytest(cell):
+def convert_pytest(cell, unittest=False):
     "Wraps cell contents into a pytest function"
     directive = get_directive(cell, "test")
     if _is_test_cell(cell):
-        if "import" not in directive:
+        if "import" not in directive and "case" not in directive:
             content = '\n'.join([f"{_tab}{c}" for c in cell.source.split("\n")])
             content = _mark_test(content)
-            cell.source = f'def test_{directive[0]}():\n{content}'
+            if unittest: cell.source = f'def test_{directive[0]}(self):\n{content}'
+            else: cell.source = f'def test_{directive[0]}():\n{content}'
         else:
             cell.source = cell.source.replace("from fastcore.test import *", "import fastcore.test as ft")
 
 # %% ../01_export.ipynb 14
-def construct_imports(nb, use_unittest=False):
+_re_defaultexp = re.compile(r'^\s*#\|\s*default_exp\s+(\S+)', flags=re.MULTILINE)
+def _default_exp(nb):
+    "get the default_exp from a notebook"
+    code_src = nb.cells.filter(lambda x: x.cell_type == 'code').attrgot('source')
+    default_exp = first(code_src.filter().map(_re_defaultexp.search).filter())
+    return default_exp.group(1) if default_exp else None
+
+# %% ../01_export.ipynb 15
+def construct_imports(nb, unittest=False):
     "Generates the test imports for the notebook"
     libname = get_config().lib_name
     exp = _default_exp(nb)
     imports = ['#| test import\n', f'from {libname}.{exp} import *\n']
-    if use_unittest: imports += ['import unittest']
+    if unittest: imports += ['import unittest']
     nb.cells.insert(1, mk_cell(imports))
 
-# %% ../01_export.ipynb 16
-def create_test_modules(path,dest,debug=False,mod_maker=ModuleMaker, unittest=False):
+# %% ../01_export.ipynb 17
+def create_test_modules(path,dest,debug=False,mod_maker=ModuleMaker,unittest=False):
     "Creates test files from `path`, optionally with unittest support"
     exp = ExportTestProc()
-    procs = [exp, convert_pytest]
+    procs = [exp, functools.partial(convert_pytest, unittest=unittest)]
     if unittest: procs.append(convert_unittest)
-    nb = NBProcessor(path, procs, preprocs=partial(construct_imports, use_unittest=unittest))
+    nb = NBProcessor(path, procs, preprocs=partial(construct_imports, unittest=unittest))
     nb.process()
-    is_new = True
-    for mod,cells in exp.tests.items():
-        mm = mod_maker(dest=dest, name=exp.default_exp, nb_path=path, is_new=is_new)
+    for i,(mod,cells) in enumerate(exp.tests.items()):
+        mm = mod_maker(dest=dest, name=exp.default_exp, nb_path=path, is_new=i==0, parse=False)
         mm.make(cells)
-        is_new = False
 
-# %% ../01_export.ipynb 19
+# %% ../01_export.ipynb 21
 def convert_unittest(cell):
     "Wraps cell contents into a unittest test suite."
     if _is_test_cell(cell):
